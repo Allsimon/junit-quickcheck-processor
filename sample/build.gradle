@@ -1,0 +1,12 @@
+plugins {
+    id 'java'
+}
+
+dependencies {
+    testImplementation project(":annotation")
+    testAnnotationProcessor project(":processor")
+
+    testImplementation 'com.google.auto.service:auto-service:1.0-rc4'
+    testImplementation 'com.pholser:junit-quickcheck-generators:0.8.2'
+    testImplementation 'junit:junit:4.12'
+}
