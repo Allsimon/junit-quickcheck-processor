@@ -1,29 +1,45 @@
 package com.github.allsimon.quickcheck.processor;
 
+import static com.github.allsimon.quickcheck.processor.Utils.hasFieldAnnotatedWithJSR380;
 import static com.squareup.javapoet.ClassName.get;
 import static java.util.stream.Collectors.toSet;
 
 import com.github.allsimon.quickcheck.Generator;
 import com.github.allsimon.quickcheck.Generator.List;
+import com.github.allsimon.quickcheck.processor.jsr380.ValidGeneratorBuilder;
 import com.google.auto.service.AutoService;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.TypeSpec;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
 import javax.annotation.processing.AbstractProcessor;
+import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
+import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.element.VariableElement;
 import javax.lang.model.type.TypeMirror;
 import javax.tools.Diagnostic;
+import javax.tools.Diagnostic.Kind;
 
 @AutoService(Processor.class)
 public class GeneratorProcessor extends AbstractProcessor {
+
+  private ProcessingEnvironment processingEnv;
+
+  @Override
+  public synchronized void init(ProcessingEnvironment processingEnv) {
+    super.init(processingEnv);
+    this.processingEnv = processingEnv;
+  }
 
   @Override
   public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
@@ -43,17 +59,35 @@ public class GeneratorProcessor extends AbstractProcessor {
     TypeElement annotatedType = (TypeElement) element;
 
     TypeMirror classToGenerate = Utils.getMirroredThing(t -> annotation.value());
+    Element elementToGenerate = processingEnv.getTypeUtils().asElement(classToGenerate);
 
-    TypeSpec generatorClass = new GeneratorBuilder((ClassName) get(classToGenerate)).generate();
+    Set<TypeSpec> classesToGenerate = new HashSet<>();
+    classesToGenerate.add(new GeneratorBuilder((ClassName) get(classToGenerate)).generate());
 
-    JavaFile file = JavaFile.builder(get(annotatedType).packageName(), generatorClass).build();
-
-    try {
-      file.writeTo(processingEnv.getFiler());
-    } catch (IOException e) {
-      processingEnv.getMessager()
-          .printMessage(Diagnostic.Kind.ERROR, "Failed to write file for element", element);
+    if (hasFieldAnnotatedWithJSR380(elementToGenerate)) {
+      Optional<java.util.List<
+          ? extends VariableElement>> constructorArgs = Utils.findBiggestArgsConstructor(elementToGenerate)
+          .map(t -> (ExecutableElement) t)
+          .map(ExecutableElement::getParameters);
+      if (!constructorArgs.isPresent()) {
+        processingEnv.getMessager()
+            .printMessage(Kind.ERROR, "No public constructor found for: " + element.getSimpleName());
+      } else {
+        classesToGenerate.add(new ValidGeneratorBuilder((ClassName) get(classToGenerate),
+            constructorArgs.get(),
+            Utils.getJSR380Annotations(elementToGenerate)).generate());
+      }
     }
+
+    classesToGenerate.forEach(clazz -> {
+      try {
+        JavaFile file = JavaFile.builder(get(annotatedType).packageName(), clazz).build();
+        file.writeTo(processingEnv.getFiler());
+      } catch (IOException e) {
+        processingEnv.getMessager()
+            .printMessage(Diagnostic.Kind.ERROR, "Failed to write file for element: ", element);
+      }
+    });
   }
 
   @Override

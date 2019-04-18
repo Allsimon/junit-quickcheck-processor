@@ -3,10 +3,9 @@ package com.github.allsimon.quickcheck.processor.model;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertNotNull;
 
+import com.github.allsimon.quickcheck.Valid;
 import com.pholser.junit.quickcheck.Property;
 import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
-import java.util.Set;
-import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import org.junit.BeforeClass;
@@ -33,8 +32,8 @@ public class GeneratorTest {
   }
 
   @Property
-  public void validPojo(ValidPojo validPojo) {
-    Set<ConstraintViolation<ValidPojo>> violations = validator.validate(validPojo);
-    assertThat(violations).isEmpty();
+  public void validPojo(@Valid ValidPojo validPojo) {
+    assertThat(validator.validate(validPojo)).isEmpty();
+    assertThat(validPojo.getFoo()).isBetween(0, 10);
   }
 }

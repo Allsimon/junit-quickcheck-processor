@@ -5,6 +5,9 @@ plugins {
 dependencies {
     testImplementation project(":annotation")
     testAnnotationProcessor project(":processor")
+
+    compileOnly 'org.projectlombok:lombok:1.18.6'
+    annotationProcessor 'org.projectlombok:lombok:1.18.6'
     implementation 'org.hibernate.validator:hibernate-validator:6.0.16.Final'
 
     testImplementation 'org.assertj:assertj-core:3.11.1'

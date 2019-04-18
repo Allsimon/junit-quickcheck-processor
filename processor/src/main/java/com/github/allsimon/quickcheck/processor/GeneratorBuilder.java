@@ -14,32 +14,43 @@ import com.squareup.javapoet.FieldSpec;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterizedTypeName;
 import com.squareup.javapoet.TypeSpec;
+import java.util.ArrayList;
+import java.util.List;
 
-class GeneratorBuilder {
+public class GeneratorBuilder {
 
   private final AnnotationSpec annotationAutoService = AnnotationSpec.builder(AutoService.class)
       .addMember("value", "$T.class", com.pholser.junit.quickcheck.generator.Generator.class)
       .build();
 
-  private final ClassName annotatedClass;
+  protected final ClassName annotatedClass;
 
-  GeneratorBuilder(ClassName annotatedClass) {
+  public GeneratorBuilder(ClassName annotatedClass) {
     this.annotatedClass = annotatedClass;
   }
 
-  TypeSpec generate() {
+  public TypeSpec generate() {
     ParameterizedTypeName parameterizedTypeName = ParameterizedTypeName
         .get(get(com.pholser.junit.quickcheck.generator.Generator.class), annotatedClass);
 
     FieldSpec.builder(parameterizedTypeName, "generator", PRIVATE, FINAL);
 
-    return TypeSpec.classBuilder(annotatedClass.simpleName() + "Gen")
+    return TypeSpec.classBuilder(generatedClassName())
         .superclass(parameterizedTypeName)
         .addModifiers(PUBLIC)
         .addAnnotation(annotationAutoService)
         .addMethod(generateMethod())
         .addMethod(constructor())
+        .addMethods(additionalMethods())
         .build();
+  }
+
+  protected List<MethodSpec> additionalMethods() {
+    return new ArrayList<>();
+  }
+
+  protected String generatedClassName() {
+    return annotatedClass.simpleName() + "Gen";
   }
 
   private MethodSpec constructor() {
@@ -49,7 +60,7 @@ class GeneratorBuilder {
         .build();
   }
 
-  private MethodSpec generateMethod() {
+  protected MethodSpec generateMethod() {
     return MethodSpec.methodBuilder("generate")
         .addModifiers(PUBLIC)
         .addParameter(get(SourceOfRandomness.class), "random")
