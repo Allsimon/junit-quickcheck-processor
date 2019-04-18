@@ -1,17 +1,52 @@
 package com.github.allsimon.quickcheck.processor.model;
 
+import java.math.BigInteger;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.Negative;
+import javax.validation.constraints.NegativeOrZero;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 import lombok.Value;
 
 @Value
 public class ValidPojo {
 
-  @Min(0)
-  @Max(10)
-  Integer foo;
+  @Min(17)
+  @Max(26)
+  int foo;
 
   @Min(-13)
   @Max(5)
   Long bar;
+
+  @DecimalMin("15")
+  BigInteger decimalMin;
+
+  @DecimalMax("3")
+  int decimalMax;
+
+  @Negative
+  short negative;
+
+  @NegativeOrZero
+  float negativeOrZero;
+
+  @Positive
+  int positive;
+
+  @PositiveOrZero
+  double positiveOrZero;
+
+//  TODO:
+//  @Future
+//  Instant future1;
+//  @Future
+//  LocalDateTime future2;
+//  @Future
+//  LocalDate future3;
+//  @Future
+//  LocalTime future4;
 }

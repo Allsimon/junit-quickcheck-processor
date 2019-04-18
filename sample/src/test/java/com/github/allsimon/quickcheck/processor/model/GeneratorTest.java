@@ -34,6 +34,6 @@ public class GeneratorTest {
   @Property
   public void validPojo(@Valid ValidPojo validPojo) {
     assertThat(validator.validate(validPojo)).isEmpty();
-    assertThat(validPojo.getFoo()).isBetween(0, 10);
+    assertThat(validPojo.getFoo()).isBetween(17, 26);
   }
 }

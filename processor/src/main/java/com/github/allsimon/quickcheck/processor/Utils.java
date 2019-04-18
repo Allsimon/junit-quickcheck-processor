@@ -74,10 +74,16 @@ public class Utils {
     return null;
   }
 
-  public static <A extends Annotation> Case<String, String> caseOf(AnnotationMirror annotation, Class<A> clazz,
+  public static <A extends Annotation> Case<String, String> caseOf(Class<A> clazz, AnnotationMirror annotation,
       String parameter,
       String annotationFieldName, Class<?> annotationFieldClass) {
     return Case($(clazz.getCanonicalName()),
-        format("\"%s\", \"%s\"", parameter, extractValue(annotation, annotationFieldName, annotationFieldClass)));
+        () -> format("\"%s\", \"%s\"", parameter, extractValue(annotation, annotationFieldName, annotationFieldClass)));
+  }
+
+  public static <A extends Annotation> Case<String, String> caseOf(Class<A> clazz,
+      String parameter,
+      String value) {
+    return Case($(clazz.getCanonicalName()), () -> format("\"%s\", \"%s\"", parameter, value));
   }
 }

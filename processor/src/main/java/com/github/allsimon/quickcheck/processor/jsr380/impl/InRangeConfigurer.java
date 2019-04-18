@@ -20,8 +20,14 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.VariableElement;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.Negative;
+import javax.validation.constraints.NegativeOrZero;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 
 public class InRangeConfigurer implements JSR380Configurer {
 
@@ -31,8 +37,14 @@ public class InRangeConfigurer implements JSR380Configurer {
     String configuration = annotations.stream()
         .map(a -> Match(a.getAnnotationType().toString())
             .of(
-                caseOf(a, Min.class, "min", "value", Long.class),
-                caseOf(a, Max.class, "max", "value", Long.class),
+                caseOf(DecimalMin.class, a, "min", "value", String.class),
+                caseOf(DecimalMax.class, a, "max", "value", String.class),
+                caseOf(Min.class, a, "min", "value", Long.class),
+                caseOf(Max.class, a, "max", "value", Long.class),
+                caseOf(Negative.class, "max", "-1"),
+                caseOf(NegativeOrZero.class, "max", "0"),
+                caseOf(Positive.class, "min", "1"),
+                caseOf(PositiveOrZero.class, "min", "0"),
                 Case($(), () -> null))
         )
         .filter(Objects::nonNull)
