@@ -1,6 +1,7 @@
 package com.github.allsimon.quickcheck.processor.model;
 
 import java.math.BigInteger;
+import java.util.List;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Max;
@@ -9,6 +10,7 @@ import javax.validation.constraints.Negative;
 import javax.validation.constraints.NegativeOrZero;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
+import javax.validation.constraints.Size;
 import lombok.Value;
 
 @Value
@@ -39,6 +41,12 @@ public class ValidPojo {
 
   @PositiveOrZero
   double positiveOrZero;
+
+  @Size(min = 3, max = 5)
+  List<String> sizeList;
+
+  @Size(max = 10)
+  int[] sizeArray;
 
 //  TODO:
 //  @Future

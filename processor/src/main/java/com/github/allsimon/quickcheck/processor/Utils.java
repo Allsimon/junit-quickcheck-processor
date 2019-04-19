@@ -2,17 +2,23 @@ package com.github.allsimon.quickcheck.processor;
 
 import static io.vavr.API.$;
 import static io.vavr.API.Case;
+import static io.vavr.API.Seq;
+import static io.vavr.API.Tuple;
 import static java.lang.String.format;
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toList;
 
 import io.vavr.API.Match.Case;
+import io.vavr.Tuple4;
+import io.vavr.collection.Seq;
 import java.lang.annotation.Annotation;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.AnnotationValue;
@@ -25,6 +31,9 @@ import javax.lang.model.type.MirroredTypeException;
 import javax.lang.model.type.TypeMirror;
 
 public class Utils {
+
+  public static final boolean DONT_CAST = false;
+  public static final boolean CAST_TO_STRING = true;
 
   public static TypeMirror getMirroredThing(UnaryOperator<?> operator) {
     try {
@@ -75,10 +84,34 @@ public class Utils {
   }
 
   public static <A extends Annotation> Case<String, String> caseOf(Class<A> clazz, AnnotationMirror annotation,
-      String parameter,
-      String annotationFieldName, Class<?> annotationFieldClass) {
-    return Case($(clazz.getCanonicalName()),
-        () -> format("\"%s\", \"%s\"", parameter, extractValue(annotation, annotationFieldName, annotationFieldClass)));
+      Seq<Tuple4<String, String, Class<?>, Boolean>> tuples) {
+    return Case($(clazz.getCanonicalName()), extractFromAnnotation(annotation, tuples));
+  }
+
+  private static Supplier<String> extractFromAnnotation(AnnotationMirror annotation,
+      Seq<Tuple4<String, String, Class<?>, Boolean>> tuples) {
+    return () -> tuples.map(tuple -> extractFromAnnotation(annotation, tuple))
+        .filter(Objects::nonNull)
+        .mkString(", ");
+  }
+
+  private static String extractFromAnnotation(AnnotationMirror annotation,
+      Tuple4<String, String, Class<?>, Boolean> tuple) {
+
+    boolean expectAString = tuple._4();
+
+    Object value = extractValue(annotation, tuple._2(), tuple._3());
+
+    if (value == null) {
+      return null;
+    }
+    return format(expectAString ? "\"%s\", \"%s\"" : "\"%s\", %s", tuple._1(),
+        value);
+  }
+
+  public static <A extends Annotation> Case<String, String> caseOf(Class<A> clazz, AnnotationMirror annotation,
+      String parameter, String annotationFieldName, Class<?> annotationFieldClass) {
+    return caseOf(clazz, annotation, Seq(Tuple(parameter, annotationFieldName, annotationFieldClass, true)));
   }
 
   public static <A extends Annotation> Case<String, String> caseOf(Class<A> clazz,

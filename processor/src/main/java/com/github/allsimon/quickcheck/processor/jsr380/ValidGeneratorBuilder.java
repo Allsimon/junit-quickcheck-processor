@@ -10,7 +10,9 @@ import static javax.lang.model.element.Modifier.PUBLIC;
 
 import com.github.allsimon.quickcheck.Valid;
 import com.github.allsimon.quickcheck.processor.GeneratorBuilder;
+import com.github.allsimon.quickcheck.processor.TypeUtils;
 import com.github.allsimon.quickcheck.processor.jsr380.impl.InRangeConfigurer;
+import com.github.allsimon.quickcheck.processor.jsr380.impl.SizeConfigurer;
 import com.pholser.junit.quickcheck.generator.GenerationStatus;
 import com.pholser.junit.quickcheck.random.SourceOfRandomness;
 import com.squareup.javapoet.ClassName;
@@ -30,7 +32,7 @@ import javax.lang.model.element.VariableElement;
 
 public class ValidGeneratorBuilder extends GeneratorBuilder {
 
-  private static final Seq<JSR380Configurer> CONFIGURERS = Seq(new InRangeConfigurer());
+  private static final Seq<JSR380Configurer> CONFIGURERS = Seq(new InRangeConfigurer(), new SizeConfigurer());
 
   private final List<? extends VariableElement> constructorArgs;
   private final Map<Name, List<? extends AnnotationMirror>> jsr380Annotations;
@@ -72,7 +74,7 @@ public class ValidGeneratorBuilder extends GeneratorBuilder {
     Object[] objects = args._2().prepend(annotatedClass).toJavaArray(TypeName.class);
 
     return CodeBlock.builder()
-        .addStatement(String.format("return new $T(%s)", args._1()), objects)
+        .addStatement(String.format("return new $T(\n%s\n)", args._1()), objects)
         .build();
   }
 
@@ -102,14 +104,15 @@ public class ValidGeneratorBuilder extends GeneratorBuilder {
   private Tuple2<String, Seq<TypeName>> constructorField(VariableElement element) {
     Name name = element.getSimpleName();
     List<? extends AnnotationMirror> annotations = jsr380Annotations.get(name);
-    TypeName variableType = get(element.asType());
+    Tuple2<String, Seq<TypeName>> elementType = TypeUtils.getType(element);
 
+    String genString = String.format("gen().type(%s)", elementType._1());
     return CONFIGURERS
         .flatMap(configurer -> configurer.configure(annotations, element))
-        .append(Tuple("gen().type($T.class)", empty()))
+        .append(Tuple(genString, empty()))
         .unzip(Function.identity())
         .map1(s -> s.foldLeft("%s", String::format) + ".generate(random, status)")
-        .map2(s -> s.foldLeft(Seq(variableType), WrappingTypeName::fold));
+        .map2(s -> s.foldLeft(elementType._2(), WrappingTypeName::fold));
   }
 
   /**

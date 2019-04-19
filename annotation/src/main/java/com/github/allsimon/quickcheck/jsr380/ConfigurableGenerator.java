@@ -13,16 +13,16 @@ import java.util.Map;
 public class ConfigurableGenerator {
 
   public static <T, A extends Annotation> Generator<T> configure(Generator<T> generator, Class<A> annotationClazz,
-      String... parameters) {
+      Object... parameters) {
     generator.configure(buildAnnotation(annotationClazz, parameters));
     return generator;
   }
 
-  private static <A extends Annotation> AnnotatedType buildAnnotation(Class<A> clazz, String... parameters) {
+  private static <A extends Annotation> AnnotatedType buildAnnotation(Class<A> clazz, Object... parameters) {
     assert parameters.length % 2 == 0 : "Wrong numbers of parameters: got " + Arrays.toString(parameters);
     Map<String, Object> annotationParameters = new HashMap<>();
     for (int i = 0; i < parameters.length; i = i + 2) {
-      annotationParameters.put(parameters[i], parameters[i + 1]);
+      annotationParameters.put((String) parameters[i], parameters[i + 1]);
     }
 
     try {

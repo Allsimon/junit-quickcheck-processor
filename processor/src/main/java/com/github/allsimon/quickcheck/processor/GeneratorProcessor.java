@@ -33,7 +33,7 @@ import javax.tools.Diagnostic.Kind;
 @AutoService(Processor.class)
 public class GeneratorProcessor extends AbstractProcessor {
 
-  private ProcessingEnvironment processingEnv;
+  public static ProcessingEnvironment processingEnv;
 
   @Override
   public synchronized void init(ProcessingEnvironment processingEnv) {
