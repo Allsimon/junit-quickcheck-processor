@@ -1,5 +1,6 @@
-package com.github.allsimon.quickcheck.processor.jsr380;
+package com.github.allsimon.quickcheck.processor.jsr380.impl;
 
+import com.github.allsimon.quickcheck.processor.jsr380.WrappingTypeName;
 import io.vavr.Tuple2;
 import io.vavr.collection.Seq;
 import java.util.List;

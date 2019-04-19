@@ -12,8 +12,8 @@ public class WrappingTypeName {
   Seq<TypeName> before;
   Seq<TypeName> after;
 
-  public static WrappingTypeName wrap(TypeName before, TypeName after) {
-    return new WrappingTypeName(Seq(before), Seq(after));
+  public static WrappingTypeName after(TypeName after) {
+    return new WrappingTypeName(Seq(), Seq(after));
   }
 
   static WrappingTypeName empty() {

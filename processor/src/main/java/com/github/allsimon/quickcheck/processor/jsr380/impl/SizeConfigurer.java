@@ -2,7 +2,7 @@ package com.github.allsimon.quickcheck.processor.jsr380.impl;
 
 import static com.github.allsimon.quickcheck.processor.Utils.DONT_CAST;
 import static com.github.allsimon.quickcheck.processor.Utils.caseOf;
-import static com.github.allsimon.quickcheck.processor.jsr380.WrappingTypeName.wrap;
+import static com.github.allsimon.quickcheck.processor.jsr380.WrappingTypeName.after;
 import static com.squareup.javapoet.TypeName.get;
 import static io.vavr.API.$;
 import static io.vavr.API.Case;
@@ -10,8 +10,6 @@ import static io.vavr.API.Match;
 import static io.vavr.API.Seq;
 import static io.vavr.API.Tuple;
 
-import com.github.allsimon.quickcheck.jsr380.ConfigurableGenerator;
-import com.github.allsimon.quickcheck.processor.jsr380.JSR380Configurer;
 import com.github.allsimon.quickcheck.processor.jsr380.WrappingTypeName;
 import io.vavr.Tuple2;
 import io.vavr.collection.Seq;
@@ -27,18 +25,20 @@ public class SizeConfigurer implements JSR380Configurer {
   @Override
   public Seq<Tuple2<String, WrappingTypeName>> configure(List<? extends AnnotationMirror> annotations,
       VariableElement element) {
-    String configuration = annotations.stream()
-        .map(a -> Match(a.getAnnotationType().toString())
-            .of(
-                caseOf(Size.class, a,
-                    Seq(Tuple("min", "min", Integer.class, DONT_CAST), Tuple("max", "max", Integer.class, DONT_CAST))),
-                Case($(), () -> null))
-        )
-        .filter(Objects::nonNull)
-        .collect(Collectors.joining(", "));
+    String configuration = annotations == null ? "" :
+        annotations.stream()
+            .map(a -> Match(a.getAnnotationType().toString())
+                .of(
+                    caseOf(Size.class, a,
+                        Seq(Tuple("min", "min", Integer.class, DONT_CAST),
+                            Tuple("max", "max", Integer.class, DONT_CAST))),
+                    Case($(), () -> null))
+            )
+            .filter(Objects::nonNull)
+            .collect(Collectors.joining(", "));
 
     return configuration.isEmpty() ? Seq() :
-        Seq(Tuple("$T.configure(%s, $T.class, " + configuration + ")",
-            wrap(get(ConfigurableGenerator.class), get(com.pholser.junit.quickcheck.generator.Size.class))));
+        Seq(Tuple("confAnnotations(%s, $T.class, " + configuration + ")",
+            after(get(com.pholser.junit.quickcheck.generator.Size.class))));
   }
 }

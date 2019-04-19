@@ -48,6 +48,11 @@ public class ValidPojo {
   @Size(max = 10)
   int[] sizeArray;
 
+  String notValidatedField;
+
+//  @Size(min = 2, max = 4)
+//  String stringSize;
+
 //  TODO:
 //  @Future
 //  Instant future1;

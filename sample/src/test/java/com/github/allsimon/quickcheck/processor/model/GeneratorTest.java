@@ -27,8 +27,8 @@ public class GeneratorTest {
   }
 
   @Property
-  public void pojoTuple(PojoTuple tuple) {
-    assertNotNull(tuple);
+  public void pojoTuple(PojoTuple pojo) {
+    assertNotNull(pojo);
   }
 
   @Property

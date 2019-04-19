@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class ConfigurableGenerator {
 
-  public static <T, A extends Annotation> Generator<T> configure(Generator<T> generator, Class<A> annotationClazz,
+  public static <T, A extends Annotation> Generator<T> confAnnotations(Generator<T> generator, Class<A> annotationClazz,
       Object... parameters) {
     generator.configure(buildAnnotation(annotationClazz, parameters));
     return generator;

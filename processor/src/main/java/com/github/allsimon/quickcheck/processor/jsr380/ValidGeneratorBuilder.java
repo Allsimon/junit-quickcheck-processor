@@ -2,23 +2,25 @@ package com.github.allsimon.quickcheck.processor.jsr380;
 
 import static com.github.allsimon.quickcheck.processor.jsr380.WrappingTypeName.empty;
 import static com.squareup.javapoet.ClassName.get;
-import static io.vavr.API.List;
 import static io.vavr.API.Seq;
 import static io.vavr.API.Tuple;
 import static java.util.function.Function.identity;
 import static javax.lang.model.element.Modifier.PUBLIC;
 
 import com.github.allsimon.quickcheck.Valid;
+import com.github.allsimon.quickcheck.jsr380.ConfigurableGenerator;
 import com.github.allsimon.quickcheck.processor.GeneratorBuilder;
 import com.github.allsimon.quickcheck.processor.TypeUtils;
 import com.github.allsimon.quickcheck.processor.jsr380.impl.InRangeConfigurer;
+import com.github.allsimon.quickcheck.processor.jsr380.impl.JSR380Configurer;
 import com.github.allsimon.quickcheck.processor.jsr380.impl.SizeConfigurer;
 import com.pholser.junit.quickcheck.generator.GenerationStatus;
 import com.pholser.junit.quickcheck.random.SourceOfRandomness;
-import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.CodeBlock;
+import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeName;
+import com.squareup.javapoet.TypeSpec;
 import io.vavr.Tuple2;
 import io.vavr.collection.Seq;
 import java.util.List;
@@ -37,13 +39,23 @@ public class ValidGeneratorBuilder extends GeneratorBuilder {
   private final List<? extends VariableElement> constructorArgs;
   private final Map<Name, List<? extends AnnotationMirror>> jsr380Annotations;
 
-  public ValidGeneratorBuilder(ClassName annotatedClass, List<? extends VariableElement> constructorArgs,
+  public ValidGeneratorBuilder(TypeName annotatedClass, List<? extends VariableElement> constructorArgs,
       List<? extends Element> jsr380Annotations) {
     super(annotatedClass);
     this.constructorArgs = constructorArgs;
     this.jsr380Annotations = jsr380Annotations.stream()
         .map(annotation -> (VariableElement) annotation)
         .collect(Collectors.toMap(VariableElement::getSimpleName, VariableElement::getAnnotationMirrors));
+  }
+
+  @Override
+  public JavaFile.Builder javaFileBuilder() {
+    return super.javaFileBuilder().addStaticImport(ConfigurableGenerator.class, "confAnnotations");
+  }
+
+  @Override
+  public TypeSpec.Builder generateTypeSpec() {
+    return super.generateTypeSpec().addMethod(configureMethod());
   }
 
   @Override
@@ -78,11 +90,6 @@ public class ValidGeneratorBuilder extends GeneratorBuilder {
         .build();
   }
 
-  @Override
-  public List<MethodSpec> additionalMethods() {
-    return List(configureMethod()).toJavaList();
-  }
-
   /**
    * Output when:
    * - no validation needed:
@@ -95,8 +102,8 @@ public class ValidGeneratorBuilder extends GeneratorBuilder {
    * ```
    * - two validations needed:
    * ```
-   * ConfigurableGenerator.configure(
-   * ConfigurableGenerator.configure(gen().type(Integer.class), InRange.class, "min", "0"),
+   * configure(
+   * configure(gen().type(Integer.class), InRange.class, "min", "0"),
    * Precision.class, "scale", "1").generate(random, status));
    * ```
    * and so on.

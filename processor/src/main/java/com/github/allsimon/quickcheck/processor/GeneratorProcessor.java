@@ -8,9 +8,7 @@ import com.github.allsimon.quickcheck.Generator;
 import com.github.allsimon.quickcheck.Generator.List;
 import com.github.allsimon.quickcheck.processor.jsr380.ValidGeneratorBuilder;
 import com.google.auto.service.AutoService;
-import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
-import com.squareup.javapoet.TypeSpec;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -33,12 +31,12 @@ import javax.tools.Diagnostic.Kind;
 @AutoService(Processor.class)
 public class GeneratorProcessor extends AbstractProcessor {
 
-  public static ProcessingEnvironment processingEnv;
+  static ProcessingEnvironment processingEnv;
 
   @Override
   public synchronized void init(ProcessingEnvironment processingEnv) {
     super.init(processingEnv);
-    this.processingEnv = processingEnv;
+    GeneratorProcessor.processingEnv = processingEnv;
   }
 
   @Override
@@ -56,13 +54,11 @@ public class GeneratorProcessor extends AbstractProcessor {
   }
 
   private void handle(Generator annotation, Element element) {
-    TypeElement annotatedType = (TypeElement) element;
-
     TypeMirror classToGenerate = Utils.getMirroredThing(t -> annotation.value());
     Element elementToGenerate = processingEnv.getTypeUtils().asElement(classToGenerate);
 
-    Set<TypeSpec> classesToGenerate = new HashSet<>();
-    classesToGenerate.add(new GeneratorBuilder((ClassName) get(classToGenerate)).generate());
+    Set<JavaFile.Builder> javaFiles = new HashSet<>();
+    javaFiles.add(new GeneratorBuilder(get(classToGenerate)).javaFileBuilder());
 
     if (hasFieldAnnotatedWithJSR380(elementToGenerate)) {
       Optional<java.util.List<
@@ -73,16 +69,15 @@ public class GeneratorProcessor extends AbstractProcessor {
         processingEnv.getMessager()
             .printMessage(Kind.ERROR, "No public constructor found for: " + element.getSimpleName());
       } else {
-        classesToGenerate.add(new ValidGeneratorBuilder((ClassName) get(classToGenerate),
+        javaFiles.add(new ValidGeneratorBuilder(get(classToGenerate),
             constructorArgs.get(),
-            Utils.getJSR380Annotations(elementToGenerate)).generate());
+            Utils.getJSR380Annotations(elementToGenerate)).javaFileBuilder());
       }
     }
 
-    classesToGenerate.forEach(clazz -> {
+    javaFiles.forEach(fileBuilder -> {
       try {
-        JavaFile file = JavaFile.builder(get(annotatedType).packageName(), clazz).build();
-        file.writeTo(processingEnv.getFiler());
+        fileBuilder.build().writeTo(processingEnv.getFiler());
       } catch (IOException e) {
         processingEnv.getMessager()
             .printMessage(Diagnostic.Kind.ERROR, "Failed to write file for element: ", element);
