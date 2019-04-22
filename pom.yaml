@@ -1,4 +1,5 @@
 modelVersion: 4.0.0
+
 groupId: com.allsimon.quickcheck
 artifactId: parent
 version: ${revision}
@@ -8,7 +9,7 @@ properties:
   project.reporting.outputEncoding: UTF-8
   project.build.sourceEncoding: UTF-8
   revision: 0.1-SNAPSHOT
-  junit-quickcheck-version: 0.8.2,
+  junit-quickcheck-version: 0.8.2
   maven.compiler.source: 1.8
   maven.compiler.target: 1.8
 
@@ -28,4 +29,3 @@ dependencyManagement:
     - {groupId: com.pholser, artifactId: junit-quickcheck-generators, version: '${junit-quickcheck-version}'}
     - {groupId: org.assertj, artifactId: assertj-core, version: 3.11.1}
     - {groupId: junit, artifactId: junit, version: 4.12}
-childInheritAppendPath: true
