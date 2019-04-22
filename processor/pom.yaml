@@ -1,0 +1,14 @@
+modelVersion: 4.0.0
+parent: {artifactId: parent, groupId: com.allsimon.quickcheck, relativePath: ../pom.xml,
+         version: '${revision}'}
+artifactId: processor
+packaging: jar
+dependencies:
+  - {groupId: com.allsimon.quickcheck, artifactId: annotation, version: '${revision}'}
+  - {groupId: org.projectlombok, artifactId: lombok, scope: provided}
+  - {groupId: com.google.auto.service, artifactId: auto-service}
+  - {groupId: com.squareup, artifactId: javapoet}
+  - {groupId: io.vavr, artifactId: vavr}
+  - {groupId: com.pholser, artifactId: junit-quickcheck-generators}
+  - {groupId: javax.validation, artifactId: validation-api}
+childInheritAppendPath: true

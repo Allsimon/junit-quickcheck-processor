@@ -1,0 +1,10 @@
+modelVersion: 4.0.0
+parent: {artifactId: parent, groupId: com.allsimon.quickcheck, relativePath: ../pom.xml,
+         version: '${revision}'}
+artifactId: annotation
+packaging: jar
+dependencies:
+  - {groupId: com.pholser, artifactId: junit-quickcheck-generators}
+  - {groupId: io.leangen.geantyref, artifactId: geantyref}
+  - {groupId: com.google.auto.service, artifactId: auto-service, scope: provided}
+childInheritAppendPath: true

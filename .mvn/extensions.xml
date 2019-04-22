@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extensions>
+  <extension>
+    <artifactId>polyglot-yaml</artifactId>
+    <groupId>io.takari.polyglot</groupId>
+    <version>0.4.0</version>
+  </extension>
+</extensions>

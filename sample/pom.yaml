@@ -1,0 +1,17 @@
+modelEncoding: UTF-8
+modelVersion: 4.0.0
+parent: {artifactId: parent, groupId: com.allsimon.quickcheck, relativePath: ../pom.xml,
+         version: '${revision}'}
+artifactId: sample
+packaging: jar
+dependencies:
+  - {groupId: javax.validation, artifactId: validation-api}
+  - {groupId: org.projectlombok, artifactId: lombok, scope: provided}
+  - {groupId: com.allsimon.quickcheck, artifactId: processor, version: '${revision}',
+     scope: test}
+  - {groupId: org.hibernate.validator, artifactId: hibernate-validator, scope: test}
+  - {groupId: org.assertj, artifactId: assertj-core, scope: test}
+  - {groupId: org.glassfish, artifactId: javax.el, scope: test}
+  - {groupId: com.google.auto.service, artifactId: auto-service, scope: test}
+  - {groupId: com.pholser, artifactId: junit-quickcheck-generators, scope: test}
+childInheritAppendPath: true

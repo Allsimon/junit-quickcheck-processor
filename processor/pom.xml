@@ -1,0 +1,49 @@
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+		 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <artifactId>processor</artifactId>
+
+  <dependencies>
+    <dependency>
+      <artifactId>annotation</artifactId>
+      <groupId>com.allsimon.quickcheck</groupId>
+      <version>${revision}</version>
+    </dependency>
+
+    <dependency>
+      <artifactId>lombok</artifactId>
+      <groupId>org.projectlombok</groupId>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <artifactId>auto-service</artifactId>
+      <groupId>com.google.auto.service</groupId>
+    </dependency>
+    <dependency>
+      <artifactId>javapoet</artifactId>
+      <groupId>com.squareup</groupId>
+    </dependency>
+    <dependency>
+      <artifactId>vavr</artifactId>
+      <groupId>io.vavr</groupId>
+    </dependency>
+    <dependency>
+      <artifactId>junit-quickcheck-generators</artifactId>
+      <groupId>com.pholser</groupId>
+    </dependency>
+    <dependency>
+      <artifactId>validation-api</artifactId>
+      <groupId>javax.validation</groupId>
+    </dependency>
+  </dependencies>
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <artifactId>parent</artifactId>
+    <groupId>com.allsimon.quickcheck</groupId>
+    <version>${revision}</version>
+  </parent>
+</project>
