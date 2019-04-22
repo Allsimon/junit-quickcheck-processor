@@ -50,6 +50,9 @@ public class ValidPojo {
 
   String notValidatedField;
 
+//  @Null
+//  String nullString;
+
 //  @Size(min = 2, max = 4)
 //  String stringSize;
 
@@ -62,4 +65,20 @@ public class ValidPojo {
 //  LocalDate future3;
 //  @Future
 //  LocalTime future4;
+
+// TODO:
+//  Digits
+//  Email
+//  Future
+//  FutureOrPresent
+//  Negative
+//  NegativeOrZero
+//  NotBlank
+//  NotEmpty
+//  NotNull
+//  Null
+//  Past
+//  PastOrPresent
+//  Pattern
+//  Size
 }
