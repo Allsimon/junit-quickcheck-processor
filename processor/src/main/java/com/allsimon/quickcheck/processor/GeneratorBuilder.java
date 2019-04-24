@@ -1,4 +1,4 @@
-package com.github.allsimon.quickcheck.processor;
+package com.allsimon.quickcheck.processor;
 
 import static com.squareup.javapoet.ClassName.get;
 import static javax.lang.model.element.Modifier.FINAL;
@@ -11,35 +11,44 @@ import com.pholser.junit.quickcheck.random.SourceOfRandomness;
 import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.FieldSpec;
+import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.ParameterizedTypeName;
+import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 
-class GeneratorBuilder {
+public class GeneratorBuilder {
 
   private final AnnotationSpec annotationAutoService = AnnotationSpec.builder(AutoService.class)
       .addMember("value", "$T.class", com.pholser.junit.quickcheck.generator.Generator.class)
       .build();
 
-  private final ClassName annotatedClass;
+  protected final ClassName annotatedClass;
 
-  GeneratorBuilder(ClassName annotatedClass) {
-    this.annotatedClass = annotatedClass;
+  public GeneratorBuilder(TypeName annotatedClass) {
+    this.annotatedClass = (ClassName) annotatedClass;
   }
 
-  TypeSpec generate() {
+  public JavaFile.Builder javaFileBuilder() {
+    return JavaFile.builder(annotatedClass.packageName(), generateTypeSpec().build());
+  }
+
+  protected TypeSpec.Builder generateTypeSpec() {
     ParameterizedTypeName parameterizedTypeName = ParameterizedTypeName
         .get(get(com.pholser.junit.quickcheck.generator.Generator.class), annotatedClass);
 
     FieldSpec.builder(parameterizedTypeName, "generator", PRIVATE, FINAL);
 
-    return TypeSpec.classBuilder(annotatedClass.simpleName() + "Gen")
+    return TypeSpec.classBuilder(generatedClassName())
         .superclass(parameterizedTypeName)
         .addModifiers(PUBLIC)
         .addAnnotation(annotationAutoService)
         .addMethod(generateMethod())
-        .addMethod(constructor())
-        .build();
+        .addMethod(constructor());
+  }
+
+  protected String generatedClassName() {
+    return annotatedClass.simpleName() + "Gen";
   }
 
   private MethodSpec constructor() {
@@ -49,7 +58,7 @@ class GeneratorBuilder {
         .build();
   }
 
-  private MethodSpec generateMethod() {
+  protected MethodSpec generateMethod() {
     return MethodSpec.methodBuilder("generate")
         .addModifiers(PUBLIC)
         .addParameter(get(SourceOfRandomness.class), "random")

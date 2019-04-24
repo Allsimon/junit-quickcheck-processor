@@ -1,4 +1,4 @@
-package com.github.allsimon.quickcheck;
+package com.allsimon.quickcheck;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Repeatable;

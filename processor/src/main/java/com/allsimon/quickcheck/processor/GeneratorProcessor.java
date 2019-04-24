@@ -1,19 +1,19 @@
-package com.github.allsimon.quickcheck.processor;
+package com.allsimon.quickcheck.processor;
 
 import static com.squareup.javapoet.ClassName.get;
 import static java.util.stream.Collectors.toSet;
 
-import com.github.allsimon.quickcheck.Generator;
-import com.github.allsimon.quickcheck.Generator.List;
+import com.allsimon.quickcheck.Generator;
+import com.allsimon.quickcheck.Generator.List;
 import com.google.auto.service.AutoService;
-import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
-import com.squareup.javapoet.TypeSpec;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Stream;
 import javax.annotation.processing.AbstractProcessor;
+import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.SourceVersion;
@@ -24,6 +24,14 @@ import javax.tools.Diagnostic;
 
 @AutoService(Processor.class)
 public class GeneratorProcessor extends AbstractProcessor {
+
+  static ProcessingEnvironment processingEnv;
+
+  @Override
+  public synchronized void init(ProcessingEnvironment processingEnv) {
+    super.init(processingEnv);
+    GeneratorProcessor.processingEnv = processingEnv;
+  }
 
   @Override
   public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
@@ -40,20 +48,19 @@ public class GeneratorProcessor extends AbstractProcessor {
   }
 
   private void handle(Generator annotation, Element element) {
-    TypeElement annotatedType = (TypeElement) element;
-
     TypeMirror classToGenerate = Utils.getMirroredThing(t -> annotation.value());
 
-    TypeSpec generatorClass = new GeneratorBuilder((ClassName) get(classToGenerate)).generate();
+    Set<JavaFile.Builder> javaFiles = new HashSet<>();
+    javaFiles.add(new GeneratorBuilder(get(classToGenerate)).javaFileBuilder());
 
-    JavaFile file = JavaFile.builder(get(annotatedType).packageName(), generatorClass).build();
-
-    try {
-      file.writeTo(processingEnv.getFiler());
-    } catch (IOException e) {
-      processingEnv.getMessager()
-          .printMessage(Diagnostic.Kind.ERROR, "Failed to write file for element", element);
-    }
+    javaFiles.forEach(fileBuilder -> {
+      try {
+        fileBuilder.build().writeTo(processingEnv.getFiler());
+      } catch (IOException e) {
+        processingEnv.getMessager()
+            .printMessage(Diagnostic.Kind.ERROR, "Failed to write file for element: ", element);
+      }
+    });
   }
 
   @Override

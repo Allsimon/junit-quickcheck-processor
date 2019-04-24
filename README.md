@@ -28,10 +28,8 @@ public class GeneratorTest {
 A single `@Generator` by pojo is needed. If you have multiple test classes, it's probably best to create a single empty interface annotated with all your pojo to keep track of all your generators. 
 
 ```java
-@Generator(PojoTuple.class)
 @Generator(SimplePojo.class)
+@Generator(SecondPojo.class)
 public interface Generators {
 }
 ```
-
-

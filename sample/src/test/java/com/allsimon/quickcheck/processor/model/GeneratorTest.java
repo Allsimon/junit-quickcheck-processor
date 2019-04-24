@@ -1,6 +1,8 @@
-package com.github.allsimon.quickcheck.processor.model;
+package com.allsimon.quickcheck.processor.model;
 
-import static org.junit.Assert.assertNotNull;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.IsNull.notNullValue;
 
 import com.pholser.junit.quickcheck.Property;
 import com.pholser.junit.quickcheck.runner.JUnitQuickcheck;
@@ -11,11 +13,11 @@ public class GeneratorTest {
 
   @Property
   public void sampleTest(SimplePojo pojo) {
-    assertNotNull(pojo);
+    assertThat(pojo, notNullValue());
   }
 
   @Property
-  public void pojoTuple(PojoTuple tuple) {
-    assertNotNull(tuple);
+  public void pojoTuple(PojoTuple pojo) {
+    assertThat(pojo, notNullValue());
   }
 }

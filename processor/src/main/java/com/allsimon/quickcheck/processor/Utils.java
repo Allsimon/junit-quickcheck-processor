@@ -1,4 +1,4 @@
-package com.github.allsimon.quickcheck.processor;
+package com.allsimon.quickcheck.processor;
 
 import java.util.function.UnaryOperator;
 import javax.lang.model.type.MirroredTypeException;
@@ -12,7 +12,6 @@ public class Utils {
     } catch (MirroredTypeException mte) {
       return mte.getTypeMirror();
     }
-    return null; // can this ever happen ??
+    throw new RuntimeException("Wat ?");
   }
-
 }

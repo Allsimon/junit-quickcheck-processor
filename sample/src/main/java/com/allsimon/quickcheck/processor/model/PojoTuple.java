@@ -1,4 +1,4 @@
-package com.github.allsimon.quickcheck.processor.model;
+package com.allsimon.quickcheck.processor.model;
 
 public class PojoTuple {
 

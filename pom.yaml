@@ -1,0 +1,22 @@
+modelVersion: 4.0.0
+
+groupId: com.allsimon.quickcheck
+artifactId: parent
+version: ${revision}
+packaging: pom
+
+properties:
+  project.reporting.outputEncoding: UTF-8
+  project.build.sourceEncoding: UTF-8
+  maven.compiler.source: 1.8
+  maven.compiler.target: 1.8
+  junit-quickcheck-version: 0.8.2
+  revision: 0.1-SNAPSHOT
+
+modules: [annotation, processor, sample]
+
+dependencyManagement:
+  dependencies:
+    - {groupId: com.squareup, artifactId: javapoet, version: 1.11.1}
+    - {groupId: com.google.auto.service, artifactId: auto-service, version: 1.0-rc4}
+    - {groupId: com.pholser, artifactId: junit-quickcheck-generators, version: '${junit-quickcheck-version}'}
