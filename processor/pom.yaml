@@ -12,6 +12,4 @@ dependencies:
   - {groupId: org.projectlombok, artifactId: lombok, scope: provided}
   - {groupId: com.google.auto.service, artifactId: auto-service}
   - {groupId: com.squareup, artifactId: javapoet}
-  - {groupId: io.vavr, artifactId: vavr}
   - {groupId: com.pholser, artifactId: junit-quickcheck-generators}
-  - {groupId: javax.validation, artifactId: validation-api}

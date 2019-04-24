@@ -18,12 +18,7 @@ modules: [annotation, processor, sample]
 dependencyManagement:
   dependencies:
     - {groupId: com.squareup, artifactId: javapoet, version: 1.11.1}
-    - {groupId: io.vavr, artifactId: vavr, version: 0.9.3}
-    - {groupId: io.leangen.geantyref, artifactId: geantyref, version: 1.3.4}
     - {groupId: org.projectlombok, artifactId: lombok, version: 1.18.6}
-    - {groupId: javax.validation, artifactId: validation-api, version: 2.0.1.Final}
-    - {groupId: org.hibernate.validator, artifactId: hibernate-validator, version: 6.0.16.Final}
-    - {groupId: org.glassfish, artifactId: javax.el, version: 3.0.1-b09}
     - {groupId: com.google.auto.service, artifactId: auto-service, version: 1.0-rc4}
     - {groupId: com.pholser, artifactId: junit-quickcheck-core, version: '${junit-quickcheck-version}'}
     - {groupId: com.pholser, artifactId: junit-quickcheck-generators, version: '${junit-quickcheck-version}'}

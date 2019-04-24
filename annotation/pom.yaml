@@ -6,8 +6,3 @@ parent:
   version: '${revision}'
 
 artifactId: annotation
-
-dependencies:
-  - {groupId: com.pholser, artifactId: junit-quickcheck-generators}
-  - {groupId: io.leangen.geantyref, artifactId: geantyref}
-  - {groupId: com.google.auto.service, artifactId: auto-service, scope: provided}
