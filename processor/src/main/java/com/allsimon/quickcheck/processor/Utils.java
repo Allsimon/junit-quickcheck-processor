@@ -119,4 +119,8 @@ public class Utils {
       String value) {
     return Case($(clazz.getCanonicalName()), () -> format("\"%s\", \"%s\"", parameter, value));
   }
+
+  public static <A extends Annotation> Case<String, String> caseOf(Class<A> clazz, Supplier<String> value) {
+    return Case($(clazz.getCanonicalName()), value);
+  }
 }

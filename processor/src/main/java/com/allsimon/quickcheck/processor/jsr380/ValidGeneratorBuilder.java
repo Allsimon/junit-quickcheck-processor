@@ -10,6 +10,7 @@ import com.allsimon.quickcheck.Valid;
 import com.allsimon.quickcheck.jsr380.ConfigurableGenerator;
 import com.allsimon.quickcheck.processor.GeneratorBuilder;
 import com.allsimon.quickcheck.processor.TypeUtils;
+import com.allsimon.quickcheck.processor.jsr380.impl.EmailConfigurer;
 import com.allsimon.quickcheck.processor.jsr380.impl.InRangeConfigurer;
 import com.allsimon.quickcheck.processor.jsr380.impl.JSR380Configurer;
 import com.allsimon.quickcheck.processor.jsr380.impl.SizeConfigurer;
@@ -33,7 +34,8 @@ import javax.lang.model.element.VariableElement;
 
 public class ValidGeneratorBuilder extends GeneratorBuilder {
 
-  private static final Seq<JSR380Configurer> CONFIGURERS = Seq(new InRangeConfigurer(), new SizeConfigurer());
+  private static final Seq<JSR380Configurer> CONFIGURERS = Seq(new InRangeConfigurer(), new SizeConfigurer(),
+      new EmailConfigurer());
 
   private final List<? extends VariableElement> constructorArgs;
   private final Map<Name, List<? extends AnnotationMirror>> jsr380Annotations;
