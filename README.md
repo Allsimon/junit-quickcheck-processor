@@ -33,28 +33,3 @@ A single `@Generator` by pojo is needed. If you have multiple test classes, it's
 public interface Generators {
 }
 ```
-
-### JSR-380 support
-If the pojo is annotated with `javax.validation` annotations, then a second generator will be built. This generator provides only valid pojo.
-
-```java
-public class ValidatedPojo {
-  @Size(max=45)
-  String foo;
-  @Positive
-  int bar;
-}
-```
-
-You can get a valid Pojo in your properties tests using the `@Valid` annotations
-
-```java
-public class GeneratorTest {
-
-  @Property
-  public void sampleTest(@Valid ValidatedPojo pojo) {
-    assertThat(pojo.foo.length()).isLessThan(45);
-    assertThat(pojo.bar).isGreaterThan(0);
-  }
-}
-```
