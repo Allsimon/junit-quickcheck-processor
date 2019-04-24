@@ -6,6 +6,3 @@ parent:
   version: '${revision}'
 
 artifactId: annotation
-
-dependencies:
-  - {groupId: com.google.auto.service, artifactId: auto-service}
