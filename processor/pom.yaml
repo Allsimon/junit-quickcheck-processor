@@ -9,7 +9,5 @@ artifactId: processor
 
 dependencies:
   - {groupId: com.allsimon.quickcheck, artifactId: annotation, version: '${revision}'}
-  - {groupId: org.projectlombok, artifactId: lombok, scope: provided}
-  - {groupId: com.google.auto.service, artifactId: auto-service}
   - {groupId: com.squareup, artifactId: javapoet}
   - {groupId: com.pholser, artifactId: junit-quickcheck-generators}

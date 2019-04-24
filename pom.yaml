@@ -18,9 +18,6 @@ modules: [annotation, processor, sample]
 dependencyManagement:
   dependencies:
     - {groupId: com.squareup, artifactId: javapoet, version: 1.11.1}
-    - {groupId: org.projectlombok, artifactId: lombok, version: 1.18.6}
     - {groupId: com.google.auto.service, artifactId: auto-service, version: 1.0-rc4}
     - {groupId: com.pholser, artifactId: junit-quickcheck-core, version: '${junit-quickcheck-version}'}
     - {groupId: com.pholser, artifactId: junit-quickcheck-generators, version: '${junit-quickcheck-version}'}
-    - {groupId: org.assertj, artifactId: assertj-core, version: 3.11.1}
-    - {groupId: junit, artifactId: junit, version: 4.12}
