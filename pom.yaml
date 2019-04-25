@@ -5,6 +5,21 @@ artifactId: parent
 version: 0.0.1
 packaging: pom
 
+name: junit-quickcheck-processor
+description: Automate the generation of boilerplate code needed for junit-quickcheck
+url: https://gitlab.com/Allsimon/junit-quickcheck-processor/
+
+scm:
+  url: https://gitlab.com/Allsimon/junit-quickcheck-processor/
+  connection: scm:git:git://gitlab.com/Allsimon/junit-quickcheck-processor.git
+  developerConnection: scm:git:git@gitlab.com:Allsimon/junit-quickcheck-processor.git
+
+licenses:
+  - {name: MIT License, url: 'http://www.opensource.org/licenses/mit-license.php'}
+
+developers:
+  - {name: Simon Allegraud, email: simon.allegraud@gmail.com, url: 'https://gitlab.com/Allsimon'}
+
 properties:
   project.reporting.outputEncoding: UTF-8
   project.build.sourceEncoding: UTF-8
