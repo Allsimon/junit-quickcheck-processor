@@ -3,6 +3,6 @@ parent:
   groupId: com.allsimon.quickcheck
   relativePath: ../pom.yaml
   artifactId: parent
-  version: '${revision}'
+  version: 0.0.1
 
 artifactId: annotation

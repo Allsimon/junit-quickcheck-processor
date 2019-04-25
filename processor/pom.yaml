@@ -3,12 +3,12 @@ parent:
   groupId: com.allsimon.quickcheck
   relativePath: ../pom.yaml
   artifactId: parent
-  version: '${revision}'
+  version: 0.0.1
 
 artifactId: processor
 
 dependencies:
-  - {groupId: com.allsimon.quickcheck, artifactId: annotation, version: '${revision}'}
+  - {groupId: com.allsimon.quickcheck, artifactId: annotation, version: 0.0.1}
   - {groupId: com.google.auto.service, artifactId: auto-service}
   - {groupId: com.squareup, artifactId: javapoet}
   - {groupId: com.pholser, artifactId: junit-quickcheck-generators}

@@ -7,9 +7,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Target(ElementType.TYPE)
-@Repeatable(Generator.List.class)
+@Repeatable(AutoGenerator.List.class)
 @Retention(RetentionPolicy.SOURCE)
-public @interface Generator {
+public @interface AutoGenerator {
 
   Class value();
 
@@ -17,6 +17,6 @@ public @interface Generator {
   @Retention(RetentionPolicy.SOURCE)
   @interface List {
 
-    Generator[] value();
+    AutoGenerator[] value();
   }
 }
