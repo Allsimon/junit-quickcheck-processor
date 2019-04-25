@@ -1,6 +1,6 @@
 modelVersion: 4.0.0
 parent:
-  groupId: com.allsimon.quickcheck
+  groupId: com.gitlab.allsimon.quickcheck
   relativePath: ../pom.yaml
   artifactId: parent
   version: 0.0.1
