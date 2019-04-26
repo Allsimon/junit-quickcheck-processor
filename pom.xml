@@ -4,7 +4,7 @@
 
   <groupId>com.gitlab.allsimon.quickcheck</groupId>
   <artifactId>parent</artifactId>
-  <version>0.0.2-SNAPSHOT</version>
+  <version>0.0.2</version>
   <packaging>pom</packaging>
 
   <modules>
@@ -65,7 +65,7 @@
     <connection>scm:git:git://gitlab.com/Allsimon/junit-quickcheck-processor.git</connection>
     <developerConnection>scm:git:git@gitlab.com:Allsimon/junit-quickcheck-processor.git</developerConnection>
     <url>https://gitlab.com/Allsimon/junit-quickcheck-processor/</url>
-    <tag>HEAD</tag>
+    <tag>parent-0.0.2</tag>
   </scm>
 
   <distributionManagement>
