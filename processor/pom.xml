@@ -5,7 +5,7 @@
   <parent>
     <groupId>com.gitlab.allsimon.quickcheck</groupId>
     <artifactId>parent</artifactId>
-    <version>0.0.2</version>
+    <version>0.0.3-SNAPSHOT</version>
   </parent>
 
   <artifactId>processor</artifactId>
@@ -14,7 +14,7 @@
     <dependency>
       <groupId>com.gitlab.allsimon.quickcheck</groupId>
       <artifactId>annotation</artifactId>
-      <version>0.0.2</version>
+      <version>0.0.3-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>com.google.auto.service</groupId>
