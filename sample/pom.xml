@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <artifactId>sample</artifactId>
+
+  <dependencies>
+    <dependency>
+      <artifactId>processor</artifactId>
+      <groupId>com.gitlab.allsimon.quickcheck</groupId>
+      <scope>test</scope>
+      <version>0.0.1-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <artifactId>junit-quickcheck-generators</artifactId>
+      <groupId>com.pholser</groupId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <artifactId>parent</artifactId>
+    <groupId>com.gitlab.allsimon.quickcheck</groupId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+</project>
