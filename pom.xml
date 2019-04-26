@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns="http://maven.apache.org/POM/4.0.0"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <artifactId>parent</artifactId>
 
   <build>
@@ -156,10 +154,11 @@
     <connection>scm:git:git://gitlab.com/Allsimon/junit-quickcheck-processor.git</connection>
     <developerConnection>scm:git:git@gitlab.com:Allsimon/junit-quickcheck-processor.git</developerConnection>
     <url>https://gitlab.com/Allsimon/junit-quickcheck-processor/</url>
+    <tag>parent-0.0.1</tag>
   </scm>
 
   <url>https://gitlab.com/Allsimon/junit-quickcheck-processor/</url>
 
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.1</version>
   <!-- maven central stuff ========================================================================================< -->
 </project>
