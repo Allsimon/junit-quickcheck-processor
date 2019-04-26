@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.gitlab.allsimon.quickcheck</groupId>
   <artifactId>parent</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.2-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>junit-quickcheck-processor</name>
   <description>Automate the generation of boilerplate code needed for junit-quickcheck</description>
@@ -31,6 +30,7 @@
     <connection>scm:git:git://gitlab.com/Allsimon/junit-quickcheck-processor.git</connection>
     <developerConnection>scm:git:git@gitlab.com:Allsimon/junit-quickcheck-processor.git</developerConnection>
     <url>https://gitlab.com/Allsimon/junit-quickcheck-processor/</url>
+    <tag>HEAD</tag>
   </scm>
   <distributionManagement>
     <repository>
