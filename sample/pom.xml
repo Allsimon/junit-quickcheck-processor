@@ -1,26 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.gitlab.allsimon.quickcheck</groupId>
+    <artifactId>parent</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+
   <artifactId>sample</artifactId>
 
   <dependencies>
     <dependency>
-      <artifactId>processor</artifactId>
       <groupId>com.gitlab.allsimon.quickcheck</groupId>
+      <artifactId>processor</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
       <scope>test</scope>
-      <version>0.0.1</version>
     </dependency>
     <dependency>
-      <artifactId>junit-quickcheck-generators</artifactId>
       <groupId>com.pholser</groupId>
+      <artifactId>junit-quickcheck-generators</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>
-
-  <modelVersion>4.0.0</modelVersion>
-
-  <parent>
-    <artifactId>parent</artifactId>
-    <groupId>com.gitlab.allsimon.quickcheck</groupId>
-    <version>0.0.1</version>
-  </parent>
 </project>

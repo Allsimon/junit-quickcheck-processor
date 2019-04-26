@@ -1,85 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <artifactId>parent</artifactId>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
 
-  <build>
-    <plugins>
-      <plugin>
-        <artifactId>maven-deploy-plugin</artifactId>
-        <executions>
-          <execution>
-            <goals>
-              <goal>deploy</goal>
-            </goals>
-            <id>default-deploy</id>
-            <phase>deploy</phase>
-          </execution>
-        </executions>
-        <version>2.8.2</version>
-      </plugin>
-      <plugin>
-        <artifactId>maven-source-plugin</artifactId>
-        <executions>
-          <execution>
-            <goals>
-              <goal>jar</goal>
-            </goals>
-            <id>attach-sources</id>
-            <inherited>true</inherited>
-          </execution>
-        </executions>
-        <version>3.0.1</version>
-      </plugin>
-      <plugin>
-        <artifactId>maven-release-plugin</artifactId>
-        <configuration>
-          <arguments>-Dgpg.passphrase=${gpg.passphrase}</arguments>
-          <localCheckout>true</localCheckout>
-          <mavenExecutorId>forked-path</mavenExecutorId>
-          <pushChanges>false</pushChanges>
-        </configuration>
-        <version>2.5.3</version>
-      </plugin>
-      <plugin>
-        <artifactId>nexus-staging-maven-plugin</artifactId>
-        <configuration>
-          <autoReleaseAfterClose>true</autoReleaseAfterClose>
-          <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-          <serverId>ossrh</serverId>
-        </configuration>
-        <extensions>true</extensions>
-        <groupId>org.sonatype.plugins</groupId>
-        <version>1.6.7</version>
-      </plugin>
-    </plugins>
-  </build>
+  <groupId>com.gitlab.allsimon.quickcheck</groupId>
+  <artifactId>parent</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <modules>
+    <module>annotation</module>
+    <module>processor</module>
+    <module>sample</module>
+  </modules>
+
+  <properties>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <junit-quickcheck-version>0.8.2</junit-quickcheck-version>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.target>1.8</maven.compiler.target>
+  </properties>
+
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <artifactId>javapoet</artifactId>
         <groupId>com.squareup</groupId>
+        <artifactId>javapoet</artifactId>
         <version>1.11.1</version>
       </dependency>
       <dependency>
-        <artifactId>auto-service</artifactId>
         <groupId>com.google.auto.service</groupId>
+        <artifactId>auto-service</artifactId>
         <version>1.0-rc4</version>
       </dependency>
       <dependency>
-        <artifactId>junit-quickcheck-generators</artifactId>
         <groupId>com.pholser</groupId>
+        <artifactId>junit-quickcheck-generators</artifactId>
         <version>${junit-quickcheck-version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
+
+  <!-- maven central stuff ========================================================================================> -->
+  <name>junit-quickcheck-processor</name>
   <description>Automate the generation of boilerplate code needed for junit-quickcheck</description>
+  <url>https://gitlab.com/Allsimon/junit-quickcheck-processor/</url>
+
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>http://www.opensource.org/licenses/mit-license.php</url>
+    </license>
+  </licenses>
+
   <developers>
     <developer>
-      <email>simon.allegraud@gmail.com</email>
       <name>Simon Allegraud</name>
+      <email>simon.allegraud@gmail.com</email>
       <url>https://gitlab.com/Allsimon</url>
     </developer>
   </developers>
+
+  <scm>
+    <connection>scm:git:git://gitlab.com/Allsimon/junit-quickcheck-processor.git</connection>
+    <developerConnection>scm:git:git@gitlab.com:Allsimon/junit-quickcheck-processor.git</developerConnection>
+    <url>https://gitlab.com/Allsimon/junit-quickcheck-processor/</url>
+  </scm>
 
   <distributionManagement>
     <repository>
@@ -92,28 +80,61 @@
     </snapshotRepository>
   </distributionManagement>
 
-  <groupId>com.gitlab.allsimon.quickcheck</groupId>
-
-  <licenses>
-    <license>
-      <name>MIT License</name>
-      <url>http://www.opensource.org/licenses/mit-license.php</url>
-    </license>
-  </licenses>
-
-  <!-- maven central stuff ========================================================================================> -->
-  <modelVersion>4.0.0</modelVersion>
-  <modules>
-    <module>annotation</module>
-    <module>processor</module>
-    <module>sample</module>
-  </modules>
-  <name>junit-quickcheck-processor</name>
-
-  <packaging>pom</packaging>
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <version>2.8.2</version>
+        <executions>
+          <execution>
+            <id>default-deploy</id>
+            <phase>deploy</phase>
+            <goals>
+              <goal>deploy</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>3.0.1</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+            <inherited>true</inherited>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>2.5.3</version>
+        <configuration>
+          <localCheckout>true</localCheckout>
+          <pushChanges>false</pushChanges>
+          <mavenExecutorId>forked-path</mavenExecutorId>
+          <arguments>-Dgpg.passphrase=${gpg.passphrase}</arguments>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.sonatype.plugins</groupId>
+        <artifactId>nexus-staging-maven-plugin</artifactId>
+        <version>1.6.7</version>
+        <extensions>true</extensions>
+        <configuration>
+          <serverId>ossrh</serverId>
+          <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+          <autoReleaseAfterClose>true</autoReleaseAfterClose>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 
   <profiles>
     <profile>
+      <id>release-sign-artifacts</id>
       <activation>
         <property>
           <name>performRelease</name>
@@ -124,41 +145,21 @@
         <plugins>
           <plugin>
             <artifactId>maven-gpg-plugin</artifactId>
+            <version>1.6</version>
             <executions>
               <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
                 <goals>
                   <goal>sign</goal>
                 </goals>
-                <id>sign-artifacts</id>
                 <inherited>true</inherited>
-                <phase>verify</phase>
               </execution>
             </executions>
-            <version>1.6</version>
           </plugin>
         </plugins>
       </build>
-      <id>release-sign-artifacts</id>
     </profile>
   </profiles>
-
-  <properties>
-    <junit-quickcheck-version>0.8.2</junit-quickcheck-version>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-  </properties>
-
-  <scm>
-    <connection>scm:git:git://gitlab.com/Allsimon/junit-quickcheck-processor.git</connection>
-    <developerConnection>scm:git:git@gitlab.com:Allsimon/junit-quickcheck-processor.git</developerConnection>
-    <url>https://gitlab.com/Allsimon/junit-quickcheck-processor/</url>
-    <tag>parent-0.0.1</tag>
-  </scm>
-
-  <url>https://gitlab.com/Allsimon/junit-quickcheck-processor/</url>
-
-  <version>0.0.1</version>
   <!-- maven central stuff ========================================================================================< -->
 </project>
