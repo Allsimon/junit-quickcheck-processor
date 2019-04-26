@@ -1,8 +1,9 @@
 package com.allsimon.quickcheck.processor.model;
 
-import com.allsimon.quickcheck.Generator;
 
-@Generator(PojoTuple.class)
-@Generator(SimplePojo.class)
+import com.allsimon.quickcheck.AutoGenerator;
+
+@AutoGenerator(PojoTuple.class)
+@AutoGenerator(SimplePojo.class)
 public interface Generators {
 }

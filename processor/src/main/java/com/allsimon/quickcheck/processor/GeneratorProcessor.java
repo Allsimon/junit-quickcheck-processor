@@ -3,8 +3,8 @@ package com.allsimon.quickcheck.processor;
 import static com.squareup.javapoet.ClassName.get;
 import static java.util.stream.Collectors.toSet;
 
-import com.allsimon.quickcheck.Generator;
-import com.allsimon.quickcheck.Generator.List;
+import com.allsimon.quickcheck.AutoGenerator;
+import com.allsimon.quickcheck.AutoGenerator.List;
 import com.google.auto.service.AutoService;
 import com.squareup.javapoet.JavaFile;
 import java.io.IOException;
@@ -35,19 +35,19 @@ public class GeneratorProcessor extends AbstractProcessor {
 
   @Override
   public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-    roundEnv.getElementsAnnotatedWith(Generator.List.class)
-        .forEach(element -> Arrays.stream(element.getAnnotationsByType(Generator.List.class))
+    roundEnv.getElementsAnnotatedWith(AutoGenerator.List.class)
+        .forEach(element -> Arrays.stream(element.getAnnotationsByType(AutoGenerator.List.class))
             .map(List::value)
             .flatMap(Arrays::stream)
             .forEach(annotation -> handle(annotation, element)));
 
-    roundEnv.getElementsAnnotatedWith(Generator.class)
-        .forEach(element -> Arrays.stream(element.getAnnotationsByType(Generator.class))
+    roundEnv.getElementsAnnotatedWith(AutoGenerator.class)
+        .forEach(element -> Arrays.stream(element.getAnnotationsByType(AutoGenerator.class))
             .forEach(annotation -> handle(annotation, element)));
     return false;
   }
 
-  private void handle(Generator annotation, Element element) {
+  private void handle(AutoGenerator annotation, Element element) {
     TypeMirror classToGenerate = Utils.getMirroredThing(t -> annotation.value());
 
     Set<JavaFile.Builder> javaFiles = new HashSet<>();
@@ -70,6 +70,6 @@ public class GeneratorProcessor extends AbstractProcessor {
 
   @Override
   public Set<String> getSupportedAnnotationTypes() {
-    return Stream.of(Generator.class, Generator.List.class).map(Class::getCanonicalName).collect(toSet());
+    return Stream.of(AutoGenerator.class, AutoGenerator.List.class).map(Class::getCanonicalName).collect(toSet());
   }
 }
